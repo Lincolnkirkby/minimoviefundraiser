@@ -1,11 +1,12 @@
 import random
 ticketssold = 0
-maxtickets = 6
+maxtickets = 4
 profit = 0
 namelist = [""]
 costlist = [""]
 surchargelist = [""]
-
+winner = ""
+printnumber = 1
 def yesnofunc():
   yesno = input("do you wish to see program instructions? ")
   if yesno =="yes" or yesno == "y":
@@ -13,7 +14,7 @@ def yesnofunc():
   elif yesno == "no" or yesno == "n":
     pass
   else:
-    print("yes or no")
+    print("invalid responce please try either yes or no")
     yesnofunc()
 yesnofunc()
 
@@ -25,7 +26,11 @@ while ticketssold < maxtickets:
     print("error, name cannot be left blank, try again")
     continue
   elif name =="xxx":
-    break
+    if ticketssold >0:
+      break
+    else:
+      print("you need to have sold at least one ticket first")
+      continue
   age = input("age: ")
   try: 
     int(age)
@@ -41,12 +46,12 @@ while ticketssold < maxtickets:
   else: 
     print("that looks like a typo, please try again")
     continue
-  payment = input("cash or credit?: ")
+  payment = input("cash or credit?: ").lower()
   if payment == "cash" or payment == "ca":
     if age <16:
       profit +=2.50
       surcharge += 0
-      ticketcost += 0
+      ticketcost += 7.50
     elif age <65:
       profit +=5.50
       surcharge+=0
@@ -75,7 +80,16 @@ while ticketssold < maxtickets:
   costlist.append(ticketcost)
   surchargelist.append(surcharge)
   ticketssold +=1
-if ticketssold == maxtickets: print("congrats on selling all tickets")
-else: print("congrats, you have sold",ticketssold,"ticket(s)")
-print("profits:")
-print(profit)
+if ticketssold == maxtickets: print("\ncongrats on selling all tickets")
+else: print("\ncongrats, you have sold",ticketssold,"ticket(s)")
+print("\n                  ---ticket data---\n")
+
+while printnumber < (ticketssold+1):
+  print("ticket #"+str(printnumber)+", name:",str(namelist[printnumber])+", ticket cost:",str(costlist[printnumber])+", surcharge:",str(surchargelist[printnumber]),"\n")
+  printnumber += 1
+
+
+winner = random.randint(1,ticketssold)
+print("the winner is",namelist[winner]+",",namelist[winner],"has won $"+str(costlist[winner]),"A.K.A",namelist[winner],"has won a free ticket")
+print("total profits: $"+str(profit))
+quit()
